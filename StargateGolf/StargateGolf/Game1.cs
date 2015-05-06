@@ -27,9 +27,11 @@ namespace StargateGolf
         private SoundEffect mSplash, mGolf;
         private Vector2 mSgPos, mBallPos, mBallInitPos;
         private Random mRandom;
-        private int mScreenWidth, mScreenHeight, mRandXChange, mRandYChange, mTimer, mCounter;
+        private int mScreenWidth, mScreenHeight, mRandXChange, mRandYChange, mTimer, mCounter,
+            mStrokes, mHits;
         private MouseState mMouseState, mLastMouseState;
         private float mScale, mDiffX, mDiffY;
+        private SpriteFont mFont;
         
 
         public Game1()
@@ -62,6 +64,8 @@ namespace StargateGolf
             mDiffX = 0;
             mDiffY = 0;
             mScale = 1;
+            mHits = 0;
+            mStrokes = 0;
 
             base.Initialize();
         }
@@ -80,6 +84,8 @@ namespace StargateGolf
             mBall = Content.Load<Texture2D>("ball");
             mSplash = Content.Load<SoundEffect>("Splash");
             mGolf = Content.Load<SoundEffect>("Golf");
+            mFont = Content.Load<SpriteFont>("hud");
+
         }
 
         /// <summary>
@@ -113,11 +119,13 @@ namespace StargateGolf
                     mMouseState.Y >= mSgPos.Y && mMouseState.Y <= mSgPos.Y + mStargate.Height)
                 {
                     mSplash.Play();
+                    mHits++;
                 }
                 else
                 {
                     mGolf.Play();
                 }
+                mStrokes++;
                 mCounter++;
                 mDiffX = mBallInitPos.X - mMouseState.X;
                 mDiffY = mBallInitPos.Y - mMouseState.Y;
@@ -169,12 +177,22 @@ namespace StargateGolf
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            float hitRate;
+            if (mStrokes == 0) hitRate = 100;
+            else hitRate = (int)(mHits / (float)mStrokes * 100);
+
 
             mSpriteBatch.Begin();
             mSpriteBatch.Draw(mBackground, mFrame, Color.White);
             mSpriteBatch.Draw(mStargate, mSgPos, Color.White);
             mSpriteBatch.Draw(mBall, mBallPos, null, Color.White, 0f, Vector2.Zero, mScale,
                 SpriteEffects.None, 0f);
+            mSpriteBatch.DrawString(mFont, "Hits: " + mHits, new Vector2(20, 20), Color.White);
+            mSpriteBatch.DrawString(mFont, "Hit Rate: " + hitRate + "%",
+                new Vector2(20, 50), Color.White);
+            mSpriteBatch.DrawString(mFont, "Time: " + gameTime.TotalGameTime.Minutes.ToString("D2")
+                + ":" + gameTime.TotalGameTime.Seconds.ToString("D2"),
+                new Vector2(mScreenWidth - 120, 20), Color.White);
             mSpriteBatch.End();
 
             base.Draw(gameTime);

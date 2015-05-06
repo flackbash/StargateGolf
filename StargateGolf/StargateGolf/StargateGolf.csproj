@@ -16,7 +16,7 @@
     <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>83f17d71-7c4c-4284-a35c-9e139953328c</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
-    <ApplicationIcon>Game1.ico</ApplicationIcon>
+    <ApplicationIcon>Stargate.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -77,11 +77,10 @@
     <Compile Include="Game1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game1.ico" />
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
-    <Content Include="Game.ico" />
+    <Content Include="Stargate.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StargateGolfContent\StargateGolfContent.contentproj">
